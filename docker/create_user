@@ -1,0 +1,18 @@
+groupadd -f video
+groupadd -f dialout
+
+echo "useradd -u $HUD -G video,dialout $HUNAME"
+useradd -u $HUD -G video,dialout $HUNAME
+
+echo "Configuring user's group in docker...$HGD $HGDN"
+groupadd -f $HUNAME -g $HGD
+
+usermod -aG sudo $HUNAME
+
+
+
+echo "source /home/$HUNAME/local/workspace/docker/.bashrc" >> /home/$HUNAME/.bashrc
+echo "$HUNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$HUNAME
+chown -R $HUNAME /home/$HUNAME
+echo "User configuration is ended"
+
